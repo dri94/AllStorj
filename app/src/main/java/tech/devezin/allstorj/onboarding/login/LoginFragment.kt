@@ -29,7 +29,7 @@ class LoginFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.viewState.observe(viewLifecycleOwner) {
-            loginEncryptionAccessInput.setText(it.error)
+            loginErrorText.text = it.error
         }
         viewModel.events.observeEvent(viewLifecycleOwner) {
             return@observeEvent when (it) {
@@ -63,8 +63,12 @@ class LoginFragment : Fragment() {
     }
 
     private fun getSelectedSatelliteAddress(): String {
-        return resources.getStringArray(R.array.login_satellites_values)[resources.getStringArray(R.array.login_satellites_names)
-            .indexOf(loginSatellitePicker.text.toString().trim())]
+        var index = resources.getStringArray(R.array.login_satellites_names)
+            .indexOf(loginSatellitePicker.text.toString().trim())
+        if (index < 0) {
+            index = 0
+        }
+        return resources.getStringArray(R.array.login_satellites_values)[index]
     }
 
 }

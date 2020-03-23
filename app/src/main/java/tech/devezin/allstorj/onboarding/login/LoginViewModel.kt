@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
-import tech.devezin.allstorj.utils.setUpdate
 
 class LoginViewModel(private val repo: LoginRepository = LoginRepositoryImpl()): ViewModel() {
 
@@ -23,17 +22,19 @@ class LoginViewModel(private val repo: LoginRepository = LoginRepositoryImpl()):
     data class ViewState(val error: String?)
 
     fun onLoginClicked(satelliteAddress: String, apiKey: String, encryptionAccess: String, cacheDir: String) {
+        if (apiKey.isEmpty()) {
+            _viewState.value = ViewState("Must specify an API Key")
+            return
+        }
         repo.login(satelliteAddress, apiKey, encryptionAccess, cacheDir).fold({
             _events.setEvent(Events.GoHome)
         }, { errorCode ->
-            _viewState.setUpdate {
-                it.copy(error = errorCode.localizedMessage)
-            }
+            _viewState.value = ViewState(errorCode.localizedMessage)
         })
     }
 
     fun onRegisterClicked() {
-        _events.setEvent(Events.GoToRegistration((Uri.parse("https://tardigrade.io/satellites/"))))
+        _events.setEvent(Events.GoToRegistration((Uri.parse("https://tardigrade.io/"))))
     }
 
 

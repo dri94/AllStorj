@@ -59,12 +59,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:id="@+id/loginErrorText"
         style="@style/ErrorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:visibility="gone"
         tools:text="Unknown"
         tools:visibility="visible" />
 

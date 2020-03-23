@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AllStorj</string>
+
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="login_sign_up">Don\'t have an account? Sign Up.</string>
+    <string name="login_error_unauthorized">Invalid Credentials</string>
+    <string name="login_error_unknown">Unknown Error</string>
+    <string name="login_error_forbidden">Forbidden</string>
+    <string name="login_logo_content_description">AllStorj Logo</string>
+    <string name="login_hint_encryption">Encryption Access</string>
+    <string name="login_hint_api">API Key</string>
+</resources>

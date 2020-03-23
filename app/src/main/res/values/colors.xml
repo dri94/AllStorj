@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#2583ff</color>
+    <color name="primaryVariant">#0057cb</color>
+    <color name="secondary">#88C425</color>
+    <color name="secondaryVariant">#67961d</color>
+    <color name="notification">@color/primary</color>
+    <color name="background">#ffffff</color>
+    <color name="onBackground">#000000</color>
+    <color name="error">#B00020</color>
+</resources>

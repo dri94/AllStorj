@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import tech.devezin.allstorj.R
+import tech.devezin.allstorj.utils.viewModels
 
 class BucketsFragment : Fragment() {
 
@@ -14,7 +15,7 @@ class BucketsFragment : Fragment() {
         fun newInstance() = BucketsFragment()
     }
 
-    private lateinit var viewModel: BucketsViewModel
+    private val viewModel: BucketsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,8 +26,7 @@ class BucketsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(BucketsViewModel::class.java)
-        // TODO: Use the ViewModel
+
     }
 
 }

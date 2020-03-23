@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_login.*
 import tech.devezin.allstorj.R
@@ -41,12 +42,29 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+        loginSatellitePicker.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                R.layout.item_satellite_picker,
+                resources.getStringArray(R.array.login_satellites_names)
+            )
+        )
         loginConfirm.setOnClickListener {
-            viewModel.onLoginClicked("", loginApiKeyInput.text(), loginEncryptionAccessInput.text(), requireContext().cacheDir.path)
+            viewModel.onLoginClicked(
+                getSelectedSatelliteAddress(),
+                loginApiKeyInput.text(),
+                loginEncryptionAccessInput.text(),
+                requireContext().cacheDir.path
+            )
         }
         loginRegister.setOnClickListener {
             viewModel.onRegisterClicked()
         }
+    }
+
+    private fun getSelectedSatelliteAddress(): String {
+        return resources.getStringArray(R.array.login_satellites_values)[resources.getStringArray(R.array.login_satellites_names)
+            .indexOf(loginSatellitePicker.text.toString().trim())]
     }
 
 }

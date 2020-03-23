@@ -7,7 +7,6 @@ import tech.devezin.allstorj.data.sources.LocalSourceImpl
 class AllStorjApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        BaseSource.initSources(this)
         LocalSourceImpl.initialize(this)
     }
 }

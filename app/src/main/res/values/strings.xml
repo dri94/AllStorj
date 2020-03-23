@@ -3,6 +3,7 @@
 
     <!-- Login -->
     <string name="login">Login</string>
+    <string name="login_hint_satellite">Satellite Address</string>
     <string name="login_sign_up">Don\'t have an account? Sign Up.</string>
     <string name="login_error_unauthorized">Invalid Credentials</string>
     <string name="login_error_unknown">Unknown Error</string>
@@ -10,4 +11,20 @@
     <string name="login_logo_content_description">AllStorj Logo</string>
     <string name="login_hint_encryption">Encryption Access</string>
     <string name="login_hint_api">API Key</string>
+    <string-array name="login_satellites_values">
+        <item>us-central-1.tardigrade.io:7777</item>
+        <item>asia-east-1.tardigrade.io:7777</item>
+        <item>europe-west-1.tardigrade.io:7777</item>
+    </string-array>
+    <string-array name="login_satellites_names">
+        <item>USA (us-central-1)</item>
+        <item>Asia (asia-east-1)</item>
+        <item>Europe (europe-west-1)</item>
+    </string-array>
+    <string name="title_activity_main">MainActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

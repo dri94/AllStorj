@@ -11,7 +11,7 @@ class LoginRepositoryImpl(private val loginSource: LoginSource = LoginSource(), 
         return loginSource.login(satelliteAddress, apiKey, encryptionAccess).flatMap {
             localSource.saveScope(it.serialize())
             BaseSource.initSources(cacheDir)
-            Success(Unit)
+            Success<Unit, Exception>(Unit)
         }
     }
 }

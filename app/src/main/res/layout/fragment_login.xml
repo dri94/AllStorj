@@ -16,6 +16,21 @@
         android:src="@drawable/logo" />
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_medium">
+
+        <AutoCompleteTextView
+            android:id="@+id/loginSatellitePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/login_hint_satellite"
+            android:editable="false"
+            android:inputType="none" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/TextInput.Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +48,7 @@
         style="@style/TextInput.Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/spacing_medium">
+        android:layout_marginTop="@dimen/spacing_medium">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginEncryptionAccessInput"

@@ -6,8 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
+import tech.devezin.allstorj.utils.setUpdate
 
-class LoginViewModel(private val satelliteAddresses: Array<String>, val repo: LoginRepository = LoginRepositoryImpl()): ViewModel() {
+class LoginViewModel(private val satelliteAddresses: Array<String>, private val cacheDir: String, val repo: LoginRepository = LoginRepositoryImpl()): ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState> = _viewState
@@ -16,29 +17,50 @@ class LoginViewModel(private val satelliteAddresses: Array<String>, val repo: Lo
 
     sealed class Events {
         class GoToRegistration(val uri: Uri) : Events()
-        object GoHome : Events()
+        object GoToBuckets : Events()
     }
 
-    data class ViewState(val error: String?)
+    data class ViewState(val error: String?, val isLoading: Boolean)
 
-    fun onLoginClicked(satelliteAddressIndex: Int, apiKey: String, encryptionAccess: String, cacheDir: String) {
+    init {
+        _viewState.value = ViewState(null, true)
+        checkIfUserIsLoggedIn()
+    }
+
+    private fun checkIfUserIsLoggedIn() {
+        repo.checkLogin(cacheDir).fold({
+            _events.setEvent(Events.GoToBuckets)
+        }, {
+            _viewState.setUpdate {
+                it.copy(isLoading = false)
+            }
+        })
+    }
+
+    fun onLoginClicked(satelliteAddressIndex: Int, apiKey: String, encryptionAccess: String) {
         if (satelliteAddressIndex < 0 || satelliteAddressIndex > satelliteAddresses.size) {
-            _viewState.value = ViewState("Must select a Satellite Address")
+            setError("Must select a Satellite Address")
             return
         }
         if (apiKey.isEmpty()) {
-            _viewState.value = ViewState("Must specify an API Key")
+            setError("Must specify an API Key")
             return
         }
         if (encryptionAccess.isEmpty()) {
-            _viewState.value = ViewState("Must input an encryption key (passphrase)")
+            setError("Must input an encryption key (passphrase)")
             return
         }
         repo.login(satelliteAddresses[satelliteAddressIndex], apiKey, encryptionAccess, cacheDir).fold({
-            _events.setEvent(Events.GoHome)
+            _events.setEvent(Events.GoToBuckets)
         }, { errorCode ->
-            _viewState.value = ViewState(errorCode.localizedMessage)
+            setError(errorCode.localizedMessage)
         })
+    }
+
+    private fun setError(message: String?) {
+        _viewState.setUpdate {
+            it.copy(error = message)
+        }
     }
 
     fun onRegisterClicked() {

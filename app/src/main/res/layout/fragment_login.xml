@@ -15,7 +15,14 @@
         android:contentDescription="@string/login_logo_content_description"
         android:src="@drawable/logo" />
 
+    <ProgressBar
+        android:id="@+id/loginProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginSatelliteLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,12 +32,13 @@
             android:id="@+id/loginSatellitePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login_hint_satellite"
             android:editable="false"
+            android:hint="@string/login_hint_satellite"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginApiKeyLayout"
         style="@style/TextInput.Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,6 +53,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginEncryptionAccessLayout"
         style="@style/TextInput.Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

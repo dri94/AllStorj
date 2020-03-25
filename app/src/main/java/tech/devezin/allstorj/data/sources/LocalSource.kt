@@ -2,10 +2,20 @@ package tech.devezin.allstorj.data.sources
 
 import android.content.Context
 import android.content.SharedPreferences
+import tech.devezin.allstorj.data.sources.LocalSource.Companion.PREF_SCOPE
+import tech.devezin.allstorj.data.sources.LocalSource.Companion.prefs
 
 interface LocalSource {
     fun saveScope(scopeString: String) : Boolean
     fun getScopeString(): String?
+    companion object {
+         const val prefsName = "local_prefs"
+        const val PREF_SCOPE = "scope"
+        internal lateinit var prefs: SharedPreferences
+        fun initialize(context: Context) {
+            prefs = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
+        }
+    }
 }
 
 class LocalSourceImpl: LocalSource {
@@ -15,14 +25,5 @@ class LocalSourceImpl: LocalSource {
 
     override fun getScopeString(): String? {
         return prefs.getString(PREF_SCOPE, null)
-    }
-
-    companion object {
-        private const val prefsName = "local_prefs"
-        private const val PREF_SCOPE = "scope"
-        private lateinit var prefs: SharedPreferences
-        fun initialize(context: Context) {
-            prefs = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE)
-        }
     }
 }

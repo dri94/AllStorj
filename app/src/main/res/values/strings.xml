@@ -21,10 +21,25 @@
         <item>Asia (asia-east-1)</item>
         <item>Europe (europe-west-1)</item>
     </string-array>
+
+    <!-- Create Bucket -->
+    <string name="create_bucket">Create Bucket</string>
+    <string name="create_bucket_hint_name">Bucket name</string>
+    <string name="create_bucket_advanced">Advanced options</string>
+    <string name="create_bucket_encryption_parameters">Encryption parameters</string>
+    <string name="create_bucket_hint_block_size">Block size</string>
+    <string name="create_bucket_encryption_none">None</string>
+    <string name="create_bucket_encryption_aes">AES-GM 256</string>
+    <string name="create_bucket_encryption_secret_box">Secret Box</string>
+    <string name="create_bucket_path_cipher">Path cipher</string>
+    <string name="create_bucket_segment_size">Segment size</string>
+    <string name="create_bucket_redundancy_scheme">Redundancy scheme</string>
+    <string name="create_bucket_redundancy_repair_shares">Repair shares</string>
+    <string name="create_bucket_redundancy_required_shares">Required shares</string>
+    <string name="create_bucket_redundancy_share_size">Share size</string>
+    <string name="create_bucket_redundancy_success_shares">Success shares</string>
+    <string name="create_bucket_redundancy_total_shares">Total shares</string>
+
+
     <string name="title_activity_main">MainActivity</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="hello_world">Hello Square World!</string>
 </resources>

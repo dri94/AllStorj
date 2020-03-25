@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
 
-class LoginViewModel(private val repo: LoginRepository = LoginRepositoryImpl()): ViewModel() {
+class LoginViewModel(private val satelliteAddresses: Array<String>, val repo: LoginRepository = LoginRepositoryImpl()): ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState> = _viewState
@@ -21,12 +21,20 @@ class LoginViewModel(private val repo: LoginRepository = LoginRepositoryImpl()):
 
     data class ViewState(val error: String?)
 
-    fun onLoginClicked(satelliteAddress: String, apiKey: String, encryptionAccess: String, cacheDir: String) {
+    fun onLoginClicked(satelliteAddressIndex: Int, apiKey: String, encryptionAccess: String, cacheDir: String) {
+        if (satelliteAddressIndex < 0 || satelliteAddressIndex > satelliteAddresses.size) {
+            _viewState.value = ViewState("Must select a Satellite Address")
+            return
+        }
         if (apiKey.isEmpty()) {
             _viewState.value = ViewState("Must specify an API Key")
             return
         }
-        repo.login(satelliteAddress, apiKey, encryptionAccess, cacheDir).fold({
+        if (encryptionAccess.isEmpty()) {
+            _viewState.value = ViewState("Must input an encryption key (passphrase)")
+            return
+        }
+        repo.login(satelliteAddresses[satelliteAddressIndex], apiKey, encryptionAccess, cacheDir).fold({
             _events.setEvent(Events.GoHome)
         }, { errorCode ->
             _viewState.value = ViewState(errorCode.localizedMessage)

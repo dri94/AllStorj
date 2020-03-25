@@ -17,7 +17,10 @@ class LoginFragment : Fragment() {
         fun newInstance() = LoginFragment()
     }
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels {
+        LoginViewModel(resources.getStringArray(R.array.login_satellites_values))
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +54,7 @@ class LoginFragment : Fragment() {
         )
         loginConfirm.setOnClickListener {
             viewModel.onLoginClicked(
-                getSelectedSatelliteAddress(),
+                getSelectedSatelliteAddressIndex(),
                 loginApiKeyInput.text(),
                 loginEncryptionAccessInput.text(),
                 requireContext().cacheDir.path
@@ -62,13 +65,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun getSelectedSatelliteAddress(): String {
-        var index = resources.getStringArray(R.array.login_satellites_names)
+    private fun getSelectedSatelliteAddressIndex(): Int {
+        return resources.getStringArray(R.array.login_satellites_names)
             .indexOf(loginSatellitePicker.text.toString().trim())
-        if (index < 0) {
-            index = 0
-        }
-        return resources.getStringArray(R.array.login_satellites_values)[index]
     }
 
 }

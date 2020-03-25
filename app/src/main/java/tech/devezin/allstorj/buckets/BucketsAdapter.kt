@@ -11,6 +11,10 @@ import tech.devezin.allstorj.R
 class BucketsAdapter(val listener: (BucketsViewModel.BucketPresentable) -> Unit): RecyclerView.Adapter<BucketsAdapter.Companion.BucketViewHolder>() {
 
     var buckets: List<BucketsViewModel.BucketPresentable> = listOf()
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BucketViewHolder {
         return BucketViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_bucket, parent, false))

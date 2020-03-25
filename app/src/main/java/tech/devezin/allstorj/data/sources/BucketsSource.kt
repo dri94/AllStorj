@@ -12,14 +12,12 @@ class BucketsSource : BaseSource() {
         }
     }
 
-    fun createBucket(name: String, vararg options: BucketCreateOption): Result<BucketInfo, Exception> {
+    fun createBucket(
+        name: String,
+        vararg options: BucketCreateOption
+    ): Result<BucketInfo, Exception> {
         return try {
-            Success(
-                project.createBucket(
-                    name,
-                    *options
-                )
-            )
+            Success(project.createBucket(name, *options))
         } catch (ex: StorjException) {
             Error(ex)
         }

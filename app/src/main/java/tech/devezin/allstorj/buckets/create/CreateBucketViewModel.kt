@@ -22,7 +22,7 @@ class CreateBucketViewModel(private val repo: CreateBucketRepository = CreateBuc
     data class ViewState(val error: String? = null, val showAdvancedOptions: Boolean)
 
     sealed class Events {
-        class GoToBucket(val info: BucketInfo) : Events()
+        class GoToBucketsList(val info: BucketInfo) : Events()
     }
 
     init {
@@ -133,7 +133,7 @@ class CreateBucketViewModel(private val repo: CreateBucketRepository = CreateBuc
             bucketName[0].toLowerCase() + bucketName.substring(1)
         } else bucketName
         repo.createBucket(formattedBucketName, *params.toTypedArray()).fold({
-            _events.setEvent(Events.GoToBucket(it))
+            _events.setEvent(Events.GoToBucketsList(it))
         }, {
             _viewState.setUpdate { viewState ->
                 viewState.copy(error = it.localizedMessage)

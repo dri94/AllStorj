@@ -1,10 +1,12 @@
 package tech.devezin.allstorj.buckets.create
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_create_bucket.*
 import tech.devezin.allstorj.R
@@ -33,9 +35,10 @@ class CreateBucketBottomSheet : BottomSheetDialogFragment() {
         })
         viewModel.events.observeEvent(viewLifecycleOwner) {
             return@observeEvent when (it) {
-                is CreateBucketViewModel.Events.GoToBucket -> {
-                    this.dismiss()
-                    false
+                is CreateBucketViewModel.Events.GoToBucketsList -> {
+                    LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(Intent(BROADCAST_BUCKET_CREATED))
+                    dismiss()
+                    true
                 }
             }
         }
@@ -81,5 +84,9 @@ class CreateBucketBottomSheet : BottomSheetDialogFragment() {
         createBucketRedundancyLabel.visibility = visibility
         createBucketRedundancyShares1Layout.visibility = visibility
         createBucketRedundancyShares2Layout.visibility = visibility
+    }
+
+    companion object {
+        const val BROADCAST_BUCKET_CREATED = "bucket_created"
     }
 }

@@ -26,20 +26,24 @@
     <string name="create_bucket">Create Bucket</string>
     <string name="create_bucket_hint_name">Bucket name</string>
     <string name="create_bucket_advanced">Advanced options</string>
-    <string name="create_bucket_encryption_parameters">Encryption parameters</string>
-    <string name="create_bucket_hint_block_size">Block size</string>
-    <string name="create_bucket_encryption_none">None</string>
-    <string name="create_bucket_encryption_aes">AES-GM 256</string>
-    <string name="create_bucket_encryption_secret_box">Secret Box</string>
-    <string name="create_bucket_path_cipher">Path cipher</string>
-    <string name="create_bucket_segment_size">Segment size</string>
-    <string name="create_bucket_redundancy_scheme">Redundancy scheme</string>
-    <string name="create_bucket_redundancy_repair_shares">Repair shares</string>
-    <string name="create_bucket_redundancy_required_shares">Required shares</string>
-    <string name="create_bucket_redundancy_share_size">Share size</string>
-    <string name="create_bucket_redundancy_success_shares">Success shares</string>
-    <string name="create_bucket_redundancy_total_shares">Total shares</string>
+    <string name="bucket_encryption_parameters">Encryption parameters</string>
+    <string name="bucket_hint_block_size">Block size</string>
+    <string name="bucket_encryption_none">None</string>
+    <string name="bucket_encryption_aes">AES-GM 256</string>
+    <string name="bucket_encryption_secret_box">Secret Box</string>
+    <string name="bucket_path_cipher">Path cipher</string>
+    <string name="bucket_segment_size">Segment size</string>
+    <string name="bucket_redundancy_scheme">Redundancy scheme</string>
+    <string name="bucket_redundancy_repair_shares">Repair shares</string>
+    <string name="bucket_redundancy_required_shares">Required shares</string>
+    <string name="bucket_redundancy_share_size">Share size</string>
+    <string name="bucket_redundancy_success_shares">Success shares</string>
+    <string name="bucket_redundancy_total_shares">Total shares</string>
 
-
+    <!-- Bucket Info -->
+    <string name="bucket_info_delete">Delete</string>
+    <string name="bucket_info_encryption">Encryption: %1$s, Block Size: %2$d</string>
+    <string name="bucket_info_path_cipher">Encryption: %1$s</string>
+    <string name="bucket_info_redundancy">Repair Threshold: %1$d, Required Shares: %2$d, Success Shares: %3$d, Total Shares: %4$d, Share Size: %5$d</string>
     <string name="title_activity_main">MainActivity</string>
 </resources>

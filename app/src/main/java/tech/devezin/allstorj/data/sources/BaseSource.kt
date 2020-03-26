@@ -7,7 +7,7 @@ import io.storj.UplinkOption
 
 open class BaseSource {
     companion object {
-        private lateinit var scope: Scope
+        internal lateinit var scope: Scope
         internal lateinit var project: Project
         fun initSources(cacheDir: String, localSource: LocalSource) {
             Scope.parse(localSource.getScopeString()).also {

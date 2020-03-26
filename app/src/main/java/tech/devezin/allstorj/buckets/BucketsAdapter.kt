@@ -8,9 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tech.devezin.allstorj.R
 
-class BucketsAdapter(val listener: (BucketsViewModel.BucketPresentable) -> Unit): RecyclerView.Adapter<BucketsAdapter.Companion.BucketViewHolder>() {
+class BucketsAdapter(val listener: BucketClickListener): RecyclerView.Adapter<BucketsAdapter.Companion.BucketViewHolder>() {
 
-    var buckets: List<BucketsViewModel.BucketPresentable> = listOf()
+    interface BucketClickListener {
+        fun onBucketClick(bucketPresentable: BucketPresentable)
+        fun onBucketMenuClick(bucketPresentable: BucketPresentable)
+    }
+
+    var buckets: List<BucketPresentable> = listOf()
     set(value) {
         field = value
         notifyDataSetChanged()
@@ -29,7 +34,10 @@ class BucketsAdapter(val listener: (BucketsViewModel.BucketPresentable) -> Unit)
         holder.name.text = bucket.name
         holder.description.text = bucket.description
         holder.moreButton.setOnClickListener {
-            listener(bucket)
+            listener.onBucketMenuClick(bucket)
+        }
+        holder.itemView.setOnClickListener {
+            listener.onBucketClick(bucket)
         }
     }
 

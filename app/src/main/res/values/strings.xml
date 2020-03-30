@@ -1,6 +1,21 @@
 <resources>
     <string name="app_name">AllStorj</string>
 
+    <string name="encryption_parameters">Encryption parameters</string>
+    <string name="encryption_none">None</string>
+    <string name="encryption_aes">AES-GM 256</string>
+    <string name="encryption_secret_box">Secret Box</string>
+    <string name="redundancy_scheme">Redundancy scheme</string>
+    <string name="redundancy_repair_shares">Repair shares</string>
+    <string name="redundancy_required_shares">Required shares</string>
+    <string name="redundancy_share_size">Share size</string>
+    <string name="redundancy_success_shares">Success shares</string>
+    <string name="redundancy_total_shares">Total shares</string>
+
+    <!-- Bottom Navigation -->
+    <string name="menu_buckets">Buckets</string>
+    <string name="menu_settings">Settings</string>
+
     <!-- Login -->
     <string name="login">Login</string>
     <string name="login_hint_satellite">Satellite Address</string>
@@ -26,19 +41,9 @@
     <string name="create_bucket">Create Bucket</string>
     <string name="create_bucket_hint_name">Bucket name</string>
     <string name="create_bucket_advanced">Advanced options</string>
-    <string name="bucket_encryption_parameters">Encryption parameters</string>
     <string name="bucket_hint_block_size">Block size</string>
-    <string name="bucket_encryption_none">None</string>
-    <string name="bucket_encryption_aes">AES-GM 256</string>
-    <string name="bucket_encryption_secret_box">Secret Box</string>
     <string name="bucket_path_cipher">Path cipher</string>
     <string name="bucket_segment_size">Segment size</string>
-    <string name="bucket_redundancy_scheme">Redundancy scheme</string>
-    <string name="bucket_redundancy_repair_shares">Repair shares</string>
-    <string name="bucket_redundancy_required_shares">Required shares</string>
-    <string name="bucket_redundancy_share_size">Share size</string>
-    <string name="bucket_redundancy_success_shares">Success shares</string>
-    <string name="bucket_redundancy_total_shares">Total shares</string>
 
     <!-- Bucket Info -->
     <string name="bucket_info_delete">Delete</string>
@@ -46,4 +51,11 @@
     <string name="bucket_info_path_cipher">Encryption: %1$s</string>
     <string name="bucket_info_redundancy">Repair Threshold: %1$d, Required Shares: %2$d, Success Shares: %3$d, Total Shares: %4$d, Share Size: %5$d</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <!-- Create File -->
+    <string name="create_file">Create File</string>
+    <string name="create_file_date_select">Select Date</string>
+    <string name="create_file_date_delete">Clear</string>
+    <string name="create_file_data_label">File Expiration Date</string>
+
 </resources>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/background"
     android:orientation="vertical"
     android:padding="@dimen/spacing_medium">
 
@@ -17,7 +18,7 @@
 
     <TextView
         android:id="@+id/bucketInfoDate"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/CaptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Created: 12/31/1900" />
@@ -27,11 +28,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/bucket_encryption_parameters" />
+        android:text="@string/encryption_parameters" />
 
     <TextView
         android:id="@+id/bucketInfoEncryptionDescription"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/CaptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_xsmall"
@@ -46,7 +47,7 @@
 
     <TextView
         android:id="@+id/bucketInfoSegmentSizeDescription"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/CaptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_xsmall"
@@ -61,7 +62,7 @@
 
     <TextView
         android:id="@+id/bucketInfoPathCipherDescription"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/CaptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_xsmall"
@@ -72,11 +73,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/bucket_redundancy_scheme" />
+        android:text="@string/redundancy_scheme" />
 
     <TextView
         android:id="@+id/bucketInfoRedundancyDescription"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/CaptionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_xsmall"

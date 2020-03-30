@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background"
     android:orientation="vertical"
     android:padding="@dimen/spacing_medium">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createBucketInputLayout"
-        style="@style/TextInput"
+        style="@style/TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,6 +18,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/createBucketInput"
+            style="@style/TextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/create_bucket_hint_name"
@@ -27,7 +29,7 @@
 
     <TextView
         android:id="@+id/createBucketAdvancedOptionsLabel"
-        style="@style/TextAppearance.MaterialComponents.Body1"
+        style="@style/BodyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
@@ -38,10 +40,11 @@
 
     <TextView
         android:id="@+id/createBucketEncryptionParametersLabel"
+        style="@style/BodyText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/bucket_encryption_parameters"
+        android:text="@string/encryption_parameters"
         app:layout_constraintTop_toBottomOf="@id/createBucketAdvancedOptionsLabel" />
 
     <com.google.android.material.chip.ChipGroup
@@ -55,31 +58,32 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bucket_encryption_none" />
+            android:text="@string/encryption_none" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/createBucketEncryptionCipherChipAes"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bucket_encryption_aes" />
+            android:text="@string/encryption_aes" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/createBucketEncryptionCipherChipSecretBox"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bucket_encryption_secret_box" />
+            android:text="@string/encryption_secret_box" />
     </com.google.android.material.chip.ChipGroup>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createBucketEncryptionBlockSizeLayout"
-        style="@style/TextInput"
+        style="@style/TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/createBucketEncryptionBlockSizeInput"
+            style="@style/TextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/bucket_hint_block_size"
@@ -107,21 +111,21 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bucket_encryption_none" />
+            android:text="@string/encryption_none" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/createBucketPathCipherChipAes"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bucket_encryption_aes" />
+            android:text="@string/encryption_aes" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/createBucketPathCipherChipSecretBox"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/bucket_encryption_secret_box" />
+            android:text="@string/encryption_secret_box" />
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
@@ -134,12 +138,13 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createBucketSegmentSizeLayout"
-        style="@style/TextInput"
+        style="@style/TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/createBucketSegmentSizeInput"
+            style="@style/TextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/bucket_segment_size"
@@ -152,7 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/bucket_redundancy_scheme"
+        android:text="@string/redundancy_scheme"
         app:layout_constraintTop_toBottomOf="@id/createBucketAdvancedOptionsLabel" />
 
     <LinearLayout
@@ -164,7 +169,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/createBucketRedundancyRepairSharesLayout"
-            style="@style/TextInput"
+            style="@style/TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_xsmall"
@@ -172,16 +177,17 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/createBucketRedundancyRepairSharesInput"
+                style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bucket_redundancy_repair_shares"
+                android:hint="@string/redundancy_repair_shares"
                 android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/createBucketRedundancyRequiredSharesLayout"
-            style="@style/TextInput"
+            style="@style/TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_xsmall"
@@ -189,16 +195,17 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/createBucketRedundancyRequiredSharesInput"
+                style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bucket_redundancy_required_shares"
+                android:hint="@string/redundancy_required_shares"
                 android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/createBucketRedundancyShareSizeLayout"
-            style="@style/TextInput"
+            style="@style/TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_xsmall"
@@ -206,9 +213,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/createBucketRedundancyShareSizeInput"
+                style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bucket_redundancy_share_size"
+                android:hint="@string/redundancy_share_size"
                 android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -224,7 +232,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/createBucketRedundancySuccessSharesLayout"
-            style="@style/TextInput"
+            style="@style/TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_xsmall"
@@ -232,16 +240,17 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/createBucketRedundancySuccessSharesInput"
+                style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bucket_redundancy_success_shares"
+                android:hint="@string/redundancy_success_shares"
                 android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/createBucketRedundancyTotalSharesLayout"
-            style="@style/TextInput"
+            style="@style/TextInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/spacing_xsmall"
@@ -249,9 +258,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/createBucketRedundancyTotalSharesInput"
+                style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/bucket_redundancy_total_shares"
+                android:hint="@string/redundancy_total_shares"
                 android:inputType="number"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -260,12 +270,12 @@
 
     <TextView
         android:id="@+id/createBucketError"
+        style="@style/ErrorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/ErrorText"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/spacing_medium"
-        tools:text="Error"/>
+        tools:text="Error" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/createBucketConfirm"

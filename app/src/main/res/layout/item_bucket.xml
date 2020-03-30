@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/itemBucketTitle"
-        style="@style/TextAppearance.MaterialComponents.Body1"
+        style="@style/BodyText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/itemBucketDescription"
-        style="@style/TextAppearance.MaterialComponents.Caption"
+        style="@style/CaptionText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/spacing_small"

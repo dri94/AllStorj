@@ -3,4 +3,8 @@
     <color name="background">#262626</color>
     <color name="onBackground">#ffffff</color>
     <color name="error">#e6002a</color>
+    <color name="bodyText">#f8f8f8</color>
+    <color name="headerText">#ffffff</color>
+    <color name="hintText">#eeeeee</color>
+    <color name="icon">#ffffff</color>
 </resources>

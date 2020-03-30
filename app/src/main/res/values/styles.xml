@@ -10,6 +10,7 @@
         <item name="colorOnPrimary">@android:color/white</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="colorOnBackground">@color/onBackground</item>
+        <item name="android:textColor">@color/bodyText</item>
     </style>
 
     <!-- Base Styles -->
@@ -19,13 +20,28 @@
         <item name="cornerSize">4dp</item>
     </style>
 
+    <style name="BodyText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/bodyText</item>
+    </style>
+
+    <style name="CaptionText" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/hintText</item>
+    </style>
+
     <style name="FilledButton" parent="Widget.MaterialComponents.Button">
         <item name="android:minWidth">@dimen/button_width</item>
         <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
     </style>
 
-    <style name="TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColor">@color/bodyText</item>
+        <item name="colorError">@color/error</item>
+        <item name="boxStrokeColor">@color/text_input_colors</item>
+        <item name="android:textColorHint">@color/hintText</item>
+    </style>
 
+    <style name="TextInput" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColor">@color/bodyText</item>
     </style>
 
     <style name="TextButton" parent="Widget.MaterialComponents.Button.TextButton">
@@ -35,10 +51,12 @@
     <style name="TextHeader" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/headerText</item>
     </style>
 
     <style name="TextSectionHeader" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/headerText</item>
     </style>
 
     <style name="ErrorText">
@@ -49,7 +67,7 @@
 
     <!-- Login -->
 
-    <style name="TextInput.Login" parent="TextInput">
+    <style name="TextInput.Login" parent="TextInputLayout">
         <item name="android:layout_marginTop">@dimen/spacing_medium</item>
     </style>
 
@@ -60,7 +78,6 @@
     <style name="TextButton.Login" parent="TextButton">
         <item name="android:layout_marginTop">@dimen/spacing_medium</item>
     </style>
-
 
 
 </resources>

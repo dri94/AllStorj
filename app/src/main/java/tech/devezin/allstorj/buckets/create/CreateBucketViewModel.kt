@@ -5,13 +5,17 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.storj.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tech.devezin.allstorj.R
 import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
 import tech.devezin.allstorj.utils.setUpdate
 
-class CreateBucketViewModel(private val repo: CreateBucketRepository = CreateBucketRepositoryImpl()) :
+class CreateBucketViewModel(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO, private val repo: CreateBucketRepository = CreateBucketRepositoryImpl()) :
     ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()
@@ -132,12 +136,14 @@ class CreateBucketViewModel(private val repo: CreateBucketRepository = CreateBuc
         val formattedBucketName: String = if (bucketName[0].isUpperCase()) {
             bucketName[0].toLowerCase() + bucketName.substring(1)
         } else bucketName
-        repo.createBucket(formattedBucketName, *params.toTypedArray()).fold({
-            _events.setEvent(Events.GoToBucketsList(it))
-        }, {
-            _viewState.setUpdate { viewState ->
-                viewState.copy(error = it.localizedMessage)
-            }
-        })
+        this.viewModelScope.launch {
+            repo.createBucket(formattedBucketName, *params.toTypedArray()).fold({
+                _events.setEvent(Events.GoToBucketsList(it))
+            }, {
+                _viewState.setUpdate { viewState ->
+                    viewState.copy(error = it.localizedMessage)
+                }
+            })
+        }
     }
 }

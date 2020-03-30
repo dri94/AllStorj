@@ -4,11 +4,11 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.storj.BucketInfo
+import androidx.lifecycle.viewModelScope
 import io.storj.CipherSuite
+import kotlinx.coroutines.launch
 import tech.devezin.allstorj.R
 import tech.devezin.allstorj.buckets.BucketPresentable
-import tech.devezin.allstorj.buckets.BucketsViewModel
 import tech.devezin.allstorj.buckets.getFormattedDate
 import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
@@ -42,7 +42,7 @@ class BucketDetailViewModel(
         getBucketInfo()
     }
 
-    private fun getBucketInfo() {
+    private fun getBucketInfo() = this.viewModelScope.launch {
         repo.getBucket(bucketPresentable.name).fold({
             _viewState.value = ViewState(
                 name = it.name,
@@ -68,19 +68,9 @@ class BucketDetailViewModel(
 
     private fun getEncryptionCipherStringRes(cipher: CipherSuite): Int {
         return when (cipher) {
-            CipherSuite.SECRET_BOX -> R.string.bucket_encryption_secret_box
-            CipherSuite.AESGCM -> R.string.bucket_encryption_aes
-            else -> R.string.bucket_encryption_none
+            CipherSuite.SECRET_BOX -> R.string.encryption_secret_box
+            CipherSuite.AESGCM -> R.string.encryption_aes
+            else -> R.string.encryption_none
         }
-    }
-
-    fun onDeleteBucketClicked() {
-        repo.deleteBucket(bucketPresentable.name).fold({
-            _events.setEvent(Events.GoToBucketList)
-        }, { exception ->
-            _viewState.setUpdate {
-                it.copy(error = exception.localizedMessage)
-            }
-        })
     }
 }

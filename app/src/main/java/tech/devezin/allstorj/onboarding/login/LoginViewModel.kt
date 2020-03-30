@@ -4,11 +4,20 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
 import tech.devezin.allstorj.utils.setUpdate
 
-class LoginViewModel(private val satelliteAddresses: Array<String>, private val cacheDir: String, val repo: LoginRepository = LoginRepositoryImpl()): ViewModel() {
+class LoginViewModel(
+    private val satelliteAddresses: Array<String>,
+    private val cacheDir: String,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    private val repo: LoginRepository = LoginRepositoryImpl(ioDispatcher)
+) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState> = _viewState
@@ -27,7 +36,7 @@ class LoginViewModel(private val satelliteAddresses: Array<String>, private val 
         checkIfUserIsLoggedIn()
     }
 
-    private fun checkIfUserIsLoggedIn() {
+    private fun checkIfUserIsLoggedIn() = viewModelScope.launch(ioDispatcher) {
         repo.checkLogin(cacheDir).fold({
             _events.setEvent(Events.GoToBuckets)
         }, {
@@ -50,11 +59,14 @@ class LoginViewModel(private val satelliteAddresses: Array<String>, private val 
             setError("Must input an encryption key (passphrase)")
             return
         }
-        repo.login(satelliteAddresses[satelliteAddressIndex], apiKey, encryptionAccess, cacheDir).fold({
-            _events.setEvent(Events.GoToBuckets)
-        }, { errorCode ->
-            setError(errorCode.localizedMessage)
-        })
+        this.viewModelScope.launch(ioDispatcher) {
+            repo.login(satelliteAddresses[satelliteAddressIndex], apiKey, encryptionAccess, cacheDir).fold({
+                _events.setEvent(Events.GoToBuckets)
+            }, { errorCode ->
+                setError(errorCode.localizedMessage)
+            })
+        }
+
     }
 
     private fun setError(message: String?) {

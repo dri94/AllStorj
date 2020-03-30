@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -19,6 +20,7 @@ import tech.devezin.allstorj.buckets.create.CreateBucketBottomSheet
 import tech.devezin.allstorj.buckets.create.CreateBucketBottomSheet.Companion.BROADCAST_BUCKET_CREATED
 import tech.devezin.allstorj.buckets.detail.BucketDetailBottomSheet
 import tech.devezin.allstorj.buckets.detail.BucketDetailBottomSheet.Companion.BROADCAST_BUCKET_DELETED
+import tech.devezin.allstorj.files.FilesFragment
 import tech.devezin.allstorj.utils.observeEvent
 import tech.devezin.allstorj.utils.viewModels
 
@@ -63,7 +65,8 @@ class BucketsFragment : Fragment() {
                     true
                 }
                 is BucketsViewModel.Events.GoToBucketScreen -> {
-                    false
+                    (activity as AppCompatActivity).supportFragmentManager.beginTransaction().replace(R.id.mainContainer, FilesFragment.newInstance(it.bucketPresentable.name)).commit()
+                    true
                 }
             }
         }

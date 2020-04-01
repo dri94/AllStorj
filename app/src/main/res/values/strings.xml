@@ -56,6 +56,11 @@
     <string name="create_file">Create File</string>
     <string name="create_file_date_select">Select Date</string>
     <string name="create_file_date_delete">Clear</string>
-    <string name="create_file_data_label">File Expiration Date</string>
+    <string name="create_file_date_label">File Expiration Date</string>
+    <string name="create_file_date_never">Never</string>
+    <string name="create_file_path">File Path</string>
+    <string name="create_file_hint_path">Path to prepend (ex: /folder/path/)</string>
+    <string name="create_file_mime">Mime Type</string>
+    <string name="create_file_hint_mime">image/png</string>
 
 </resources>

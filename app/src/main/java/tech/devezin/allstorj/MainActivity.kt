@@ -13,11 +13,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            setFragmentContainerBottomMargin()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.mainContainer, LoginFragment.newInstance()).commit()
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setFragmentContainerBottomMargin()
     }
 
     private fun setFragmentContainerBottomMargin() {

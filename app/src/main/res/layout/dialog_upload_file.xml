@@ -1,214 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/spacing_medium">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/uploadFileTitle"
-        style="@style/TextHeader"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="HelloWorld.img" />
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_medium">
 
-    <TextView
-        android:id="@+id/uploadFileAdvancedOptionsLabel"
-        style="@style/BodyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:drawableEnd="@drawable/ic_expand_more"
-        android:drawableTint="@color/bodyText"
-        android:text="@string/create_bucket_advanced"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/uploadFileEncryptionParametersLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/encryption_parameters"
-        app:layout_constraintTop_toBottomOf="@id/uploadFileAdvancedOptionsLabel" />
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/uploadFileEncryptionCipherChipGroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:singleSelection="true">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/uploadFileEncryptionCipherChipNone"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/encryption_none" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/uploadFileEncryptionCipherChipAes"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/encryption_aes" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/uploadFileEncryptionCipherChipSecretBox"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/encryption_secret_box" />
-    </com.google.android.material.chip.ChipGroup>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/uploadFileEncryptionBlockSizeLayout"
-        style="@style/TextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/uploadFileEncryptionBlockSizeInput"
-            style="@style/TextInput"
+        <TextView
+            android:id="@+id/uploadFileTitle"
+            style="@style/TextHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/bucket_hint_block_size"
-            android:inputType="number"
-            android:maxLines="1" />
+            tools:text="HelloWorld.img" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/uploadFileRedundancyLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:text="@string/redundancy_scheme"
-        app:layout_constraintTop_toBottomOf="@id/uploadFileAdvancedOptionsLabel" />
-
-    <LinearLayout
-        android:id="@+id/uploadFileRedundancyShares1Layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/uploadFilePathLabel"
+            style="@style/TextSectionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/create_file_path"
+            app:layout_constraintTop_toBottomOf="@id/uploadFileAdvancedOptionsLabel" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/uploadFileRedundancyRepairSharesLayout"
+            android:id="@+id/uploadFilePathLayout"
             style="@style/TextInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_xsmall"
-            android:layout_weight="1">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/uploadFileRedundancyRepairSharesInput"
+                android:id="@+id/uploadFilePathInput"
                 style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/redundancy_repair_shares"
-                android:inputType="number"
+                android:hint="@string/create_file_hint_path"
+                android:inputType="textNoSuggestions"
                 android:maxLines="1" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/uploadFileRedundancyRequiredSharesLayout"
-            style="@style/TextInputLayout"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/uploadFileAdvancedOptionsLabel"
+            style="@style/BodyText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_xsmall"
-            android:layout_weight="1">
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:drawableEnd="@drawable/ic_expand_more"
+            android:drawableTint="@color/bodyText"
+            android:text="@string/create_bucket_advanced"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/uploadFileMimeLabel"
+            style="@style/TextSectionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/create_file_mime"
+            app:layout_constraintTop_toBottomOf="@id/uploadFileAdvancedOptionsLabel" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/uploadFileMimeLayout"
+            style="@style/TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/uploadFileRedundancyRequiredSharesInput"
+                android:id="@+id/uploadFileMimeInput"
                 style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/redundancy_required_shares"
-                android:inputType="number"
+                android:hint="@string/create_file_hint_mime"
+                android:inputType="textNoSuggestions"
                 android:maxLines="1" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/uploadFileRedundancyShareSizeLayout"
-            style="@style/TextInputLayout"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/uploadFileEncryptionParametersLabel"
+            style="@style/TextSectionHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_xsmall"
-            android:layout_weight="1">
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/encryption_parameters"
+            app:layout_constraintTop_toBottomOf="@id/uploadFileAdvancedOptionsLabel" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/uploadFileEncryptionCipherChipGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/uploadFileEncryptionCipherChipNone"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/encryption_none" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/uploadFileEncryptionCipherChipAes"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/encryption_aes" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/uploadFileEncryptionCipherChipSecretBox"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/encryption_secret_box" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/uploadFileEncryptionBlockSizeLayout"
+            style="@style/TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/uploadFileRedundancyShareSizeInput"
+                android:id="@+id/uploadFileEncryptionBlockSizeInput"
                 style="@style/TextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/redundancy_share_size"
+                android:hint="@string/bucket_hint_block_size"
                 android:inputType="number"
                 android:maxLines="1" />
+
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/uploadFileExpirationLabel"
+            style="@style/TextSectionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/create_file_date_label"
+            app:layout_constraintTop_toBottomOf="@id/uploadFileAdvancedOptionsLabel" />
+
+        <LinearLayout
+            android:id="@+id/uploadFileExpirationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/uploadFileExpirationDate"
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/create_file_date_never" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/uploadFileExpirationButton"
+                style="@style/TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/spacing_medium"
+                android:text="@string/create_file_date_select" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/uploadFileRedundancyLabel"
+            style="@style/TextSectionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_medium"
+            android:text="@string/redundancy_scheme"
+            app:layout_constraintTop_toBottomOf="@id/uploadFileAdvancedOptionsLabel" />
+
+        <LinearLayout
+            android:id="@+id/uploadFileRedundancyShares1Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/uploadFileRedundancyRepairSharesLayout"
+                style="@style/TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_xsmall"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/uploadFileRedundancyRepairSharesInput"
+                    style="@style/TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/redundancy_repair_shares"
+                    android:inputType="number"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/uploadFileRedundancyRequiredSharesLayout"
+                style="@style/TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_xsmall"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/uploadFileRedundancyRequiredSharesInput"
+                    style="@style/TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/redundancy_required_shares"
+                    android:inputType="number"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/uploadFileRedundancyShareSizeLayout"
+                style="@style/TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_xsmall"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/uploadFileRedundancyShareSizeInput"
+                    style="@style/TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/redundancy_share_size"
+                    android:inputType="number"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/uploadFileRedundancyShares2Layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/uploadFileRedundancySuccessSharesLayout"
+                style="@style/TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_xsmall"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/uploadFileRedundancySuccessSharesInput"
+                    style="@style/TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/redundancy_success_shares"
+                    android:inputType="number"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/uploadFileRedundancyTotalSharesLayout"
+                style="@style/TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_xsmall"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/uploadFileRedundancyTotalSharesInput"
+                    style="@style/TextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/redundancy_total_shares"
+                    android:inputType="number"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/uploadFileError"
+            style="@style/ErrorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_medium"
+            tools:text="Error" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/uploadFileConfirm"
+            style="@style/FilledButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/create_file" />
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/uploadFileRedundancyShares2Layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/uploadFileRedundancySuccessSharesLayout"
-            style="@style/TextInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_xsmall"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/uploadFileRedundancySuccessSharesInput"
-                style="@style/TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/redundancy_success_shares"
-                android:inputType="number"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/uploadFileRedundancyTotalSharesLayout"
-            style="@style/TextInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_xsmall"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/uploadFileRedundancyTotalSharesInput"
-                style="@style/TextInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/redundancy_total_shares"
-                android:inputType="number"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/uploadFileError"
-        style="@style/ErrorText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/spacing_medium"
-        tools:text="Error" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/uploadFileConfirm"
-        style="@style/FilledButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/create_bucket" />
-
-</LinearLayout>
+</ScrollView>

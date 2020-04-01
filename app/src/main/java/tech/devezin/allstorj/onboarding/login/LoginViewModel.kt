@@ -8,9 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import tech.devezin.allstorj.utils.SingleLiveEvent
-import tech.devezin.allstorj.utils.setEvent
-import tech.devezin.allstorj.utils.setUpdate
+import tech.devezin.allstorj.utils.*
 
 class LoginViewModel(
     private val satelliteAddresses: Array<String>,
@@ -38,9 +36,9 @@ class LoginViewModel(
 
     private fun checkIfUserIsLoggedIn() = viewModelScope.launch(ioDispatcher) {
         repo.checkLogin(cacheDir).fold({
-            _events.setEvent(Events.GoToBuckets)
+            _events.postEvent(Events.GoToBuckets)
         }, {
-            _viewState.setUpdate {
+            _viewState.postUpdate {
                 it.copy(isLoading = false)
             }
         })
@@ -61,7 +59,7 @@ class LoginViewModel(
         }
         this.viewModelScope.launch(ioDispatcher) {
             repo.login(satelliteAddresses[satelliteAddressIndex], apiKey, encryptionAccess, cacheDir).fold({
-                _events.setEvent(Events.GoToBuckets)
+                _events.postEvent(Events.GoToBuckets)
             }, { errorCode ->
                 setError(errorCode.localizedMessage)
             })
@@ -70,7 +68,7 @@ class LoginViewModel(
     }
 
     private fun setError(message: String?) {
-        _viewState.setUpdate {
+        _viewState.postUpdate {
             it.copy(error = message)
         }
     }

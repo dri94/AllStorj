@@ -9,7 +9,6 @@ import java.io.InputStream
 
 interface FilesRepository {
     suspend fun getBucket(name: String): Result<Bucket, Exception>
-    suspend fun createFile(bucket: Bucket, filePath: String, inputStream: InputStream): Result<Unit, Exception>
 }
 
 class FilesRepositoryImpl(
@@ -20,12 +19,6 @@ class FilesRepositoryImpl(
     override suspend fun getBucket(name: String): Result<Bucket, Exception> {
         return executeCallOnDispatcher {
             bucketsSource.getBucket(name)
-        }
-    }
-
-    override suspend fun createFile(bucket: Bucket, filePath: String, inputStream: InputStream): Result<Unit, Exception> {
-        return executeCallOnDispatcher {
-            filesSource.createFile(bucket, filePath, inputStream)
         }
     }
 }

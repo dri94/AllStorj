@@ -7,12 +7,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.storj.Bucket
 import io.storj.ObjectInfo
+import io.storj.ObjectListOption
 import kotlinx.coroutines.launch
 import tech.devezin.allstorj.R
 import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
-import java.io.InputStream
+import tech.devezin.allstorj.utils.setUpdate
+import java.text.CharacterIterator
 import java.text.SimpleDateFormat
+import java.text.StringCharacterIterator
 
 class FilesViewModel(
     private val bucketName: String,
@@ -27,26 +30,38 @@ class FilesViewModel(
     private var bucket: Bucket? = null
 
     sealed class Events {
-        object ShowNewFileDialog : Events()
+        class ShowNewFileDialog(val bucketName: String, val uri: Uri) : Events()
         class ShowFileDetailBottomSheet(val info: ObjectInfo) : Events()
         class ShowFileMenuBottomSheet(val info: ObjectInfo) : Events()
         object OpenSystemFilePicker : Events()
     }
 
-    data class ViewState(val files: List<FilePresentable> = listOf())
+    data class ViewState(val isLoading: Boolean, val files: List<FilePresentable> = listOf())
 
     init {
+        _viewState.value = (ViewState(true))
         getFiles()
     }
 
     private fun getFiles() = this.viewModelScope.launch {
+        _viewState.setUpdate {
+            it.copy(isLoading = true)
+        }
         repo.getBucket(bucketName).fold({
             bucket = it
-            listObjects = it.listObjects().toList()
-            _viewState.value = ViewState(listObjects.toFilePresentables())
+            listObjects = it.listObjects(ObjectListOption.recursive(true)).toList()
+            _viewState.setUpdate {
+                it.copy(isLoading = false, files = listObjects.toFilePresentables())
+            }
         }, {
-
+            _viewState.setUpdate {
+                it.copy(isLoading = false)
+            }
         })
+    }
+
+    fun onRefresh() {
+        getFiles()
     }
 
     override fun onClick(presentable: FilePresentable) {
@@ -66,12 +81,12 @@ class FilesViewModel(
     }
 
     fun onCreateFileClicked() {
-        _events.setEvent(Events.ShowNewFileDialog)
+        _events.setEvent(Events.OpenSystemFilePicker)
     }
 
-    fun onFileChosen(filePath: String, inputStream: InputStream) = this.viewModelScope.launch {
+    fun onFileChosen(uri: Uri) {
         bucket?.let {
-            repo.createFile(it, filePath, inputStream)
+            _events.setEvent(Events.ShowNewFileDialog(it.name, uri))
         }
     }
 }
@@ -81,7 +96,7 @@ fun ObjectInfo.getName(): String {
 }
 
 fun ObjectInfo.getModifiedFormattedDate(): String {
-    val formatter = SimpleDateFormat("mm/dd/yyyy")
+    val formatter = SimpleDateFormat("MM/dd/yyyy")
     return formatter.format(modified)
 }
 
@@ -93,8 +108,21 @@ fun ObjectInfo.getMimeTypeDrawable(): Int {
 }
 
 fun ObjectInfo.toFilePresentable(): FilePresentable {
-    val size = size / (1024*1024).toDouble()
-    return FilePresentable(name = getName(), path = path, drawableRes = getMimeTypeDrawable() , description = "$size MB, Modified: ${getModifiedFormattedDate()}")
+    val size = humanReadableByteCountSI(size)
+    return FilePresentable(name = getName(), path = path, drawableRes = getMimeTypeDrawable() , description = "$size, Modified: ${getModifiedFormattedDate()}")
+}
+
+private fun humanReadableByteCountSI(bytes: Long): String? {
+    var bytes = bytes
+    if (-1000 < bytes && bytes < 1000) {
+        return "$bytes B"
+    }
+    val ci: CharacterIterator = StringCharacterIterator("kMGTPE")
+    while (bytes <= -999950 || bytes >= 999950) {
+        bytes /= 1000
+        ci.next()
+    }
+    return java.lang.String.format("%.1f %cB", bytes / 1000.0, ci.current())
 }
 
 fun List<ObjectInfo>.toFilePresentables(): List<FilePresentable> {

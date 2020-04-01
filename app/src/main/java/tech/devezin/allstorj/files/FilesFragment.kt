@@ -83,8 +83,6 @@ class FilesFragment : Fragment() {
                         type = "*/*"
                     }
                     safelyStartIntent(ActivityResultContracts.StartActivityForResult(), intent) {
-                        //TODO open dialog asking for path of object (try prefilling with just file name), advanced options for ObjectUploadOption
-                        //then pass in user specified path input stream and options to viewmodel
                         val uri = it.data?.data ?: return@safelyStartIntent
                         viewModel.onFileChosen(uri)
                     }

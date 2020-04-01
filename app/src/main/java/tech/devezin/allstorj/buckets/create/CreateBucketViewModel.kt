@@ -15,7 +15,7 @@ import tech.devezin.allstorj.utils.SingleLiveEvent
 import tech.devezin.allstorj.utils.setEvent
 import tech.devezin.allstorj.utils.setUpdate
 
-class CreateBucketViewModel(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO, private val repo: CreateBucketRepository = CreateBucketRepositoryImpl()) :
+class CreateBucketViewModel(private val repo: CreateBucketRepository = CreateBucketRepositoryImpl()) :
     ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()

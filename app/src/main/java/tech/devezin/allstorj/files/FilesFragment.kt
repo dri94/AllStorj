@@ -55,13 +55,13 @@ class FilesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = FilesAdapter(viewModel)
+        val adapter = FilesPagingAdapter(viewModel)
         filesList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
         }
         viewModel.viewState.observe(viewLifecycleOwner, Observer {
-            adapter.items = it.files
+            adapter.submitList(it.items)
             filesSwipeRefreshLayout.isRefreshing = it.isLoading
         })
         viewModel.events.observeEvent(viewLifecycleOwner) {

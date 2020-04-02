@@ -1,10 +1,9 @@
 package tech.devezin.allstorj.files
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import io.storj.Bucket
 import io.storj.ObjectInfo
 import io.storj.ObjectListOption
@@ -22,12 +21,20 @@ class FilesViewModel(
     private val repo: FilesRepository = FilesRepositoryImpl()
 ) : ViewModel(), FilesAdapter.FileClickListener {
 
+    private var dataSourceFactory: FilesPagingDataSourceFactory? = null
+    private var dataSourceLiveData: LiveData<PagedList<FilePresentable>>? = null
     private val _viewState = MutableLiveData<ViewState>()
     val viewState: LiveData<ViewState> = _viewState
     private val _events = MutableLiveData<SingleLiveEvent<Events>>()
     val events: LiveData<SingleLiveEvent<Events>> = _events
     private var listObjects: List<ObjectInfo> = listOf()
     private var bucket: Bucket? = null
+    private val pagedObserver = Observer<PagedList<FilePresentable>> { list ->
+        _viewState.setUpdate {
+            it.copy(isLoading = false, items = list)
+        }
+    }
+
 
     sealed class Events {
         class ShowNewFileDialog(val bucketName: String, val uri: Uri) : Events()
@@ -36,11 +43,16 @@ class FilesViewModel(
         object OpenSystemFilePicker : Events()
     }
 
-    data class ViewState(val isLoading: Boolean, val files: List<FilePresentable> = listOf())
+    data class ViewState(val isLoading: Boolean, val items: PagedList<FilePresentable>? = null)
 
     init {
         _viewState.value = (ViewState(true))
         getFiles()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        dataSourceLiveData?.removeObserver(pagedObserver)
     }
 
     private fun getFiles() = this.viewModelScope.launch {
@@ -49,10 +61,9 @@ class FilesViewModel(
         }
         repo.getBucket(bucketName).fold({
             bucket = it
-            listObjects = it.listObjects(ObjectListOption.recursive(true)).toList()
-            _viewState.setUpdate {
-                it.copy(isLoading = false, files = listObjects.toFilePresentables())
-            }
+            dataSourceFactory = FilesPagingDataSourceFactory(it)
+            dataSourceLiveData = dataSourceFactory?.toLiveData(FilesPagingDataSource.PAGE_SIZE)
+            dataSourceLiveData?.observeForever(pagedObserver)
         }, {
             _viewState.setUpdate {
                 it.copy(isLoading = false)
@@ -61,20 +72,27 @@ class FilesViewModel(
     }
 
     fun onRefresh() {
-        getFiles()
+        invalidateDataSource()
     }
 
+    private fun invalidateDataSource() = dataSourceFactory?.sourceLiveData?.value?.invalidate()
+
     override fun onClick(presentable: FilePresentable) {
-        listObjects.find {
-            it.path == presentable.path
-        }?.let {
-            _events.setEvent(Events.ShowFileDetailBottomSheet(it))
+        if (presentable.isPrefix) {
+            dataSourceFactory?.cursor = presentable.path
+            invalidateDataSource()
+        } else {
+            listObjects.find {
+                it.path == presentable.name
+            }?.let {
+                _events.setEvent(Events.ShowFileDetailBottomSheet(it))
+            }
         }
     }
 
     override fun onMenuClick(presentable: FilePresentable) {
         listObjects.find {
-            it.path == presentable.path
+            it.getName() == presentable.name
         }?.let {
             _events.setEvent(Events.ShowFileMenuBottomSheet(it))
         }
@@ -101,7 +119,7 @@ fun ObjectInfo.getModifiedFormattedDate(): String {
 }
 
 fun ObjectInfo.getMimeTypeDrawable(): Int {
-    return when  {
+    return when {
         contentType.startsWith("image") -> R.drawable.ic_file_image
         else -> R.drawable.ic_file
     }
@@ -109,7 +127,7 @@ fun ObjectInfo.getMimeTypeDrawable(): Int {
 
 fun ObjectInfo.toFilePresentable(): FilePresentable {
     val size = humanReadableByteCountSI(size)
-    return FilePresentable(name = getName(), path = path, drawableRes = getMimeTypeDrawable() , description = "$size, Modified: ${getModifiedFormattedDate()}")
+    return FilePresentable(name = getName(), path = path, isPrefix = isPrefix, drawableRes = getMimeTypeDrawable(), description = "$size, Modified: ${getModifiedFormattedDate()}")
 }
 
 private fun humanReadableByteCountSI(bytes: Long): String? {

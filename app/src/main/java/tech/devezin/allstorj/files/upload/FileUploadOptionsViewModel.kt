@@ -192,7 +192,7 @@ class FileUploadOptionsViewModel(
     }
 
     private fun formatPath(input: String) : String {
-        var path = input
+        var path = input.removePrefix("/")
         if (path.isNotEmpty() && path[path.lastIndex] != '/') {
             path += "/"
         }

@@ -5,16 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import tech.devezin.allstorj.utils.*
+import tech.devezin.allstorj.utils.SingleLiveEvent
+import tech.devezin.allstorj.utils.postUpdate
+import tech.devezin.allstorj.utils.setEvent
+import tech.devezin.allstorj.utils.setUpdate
 
 class LoginViewModel(
     private val satelliteAddresses: Array<String>,
     private val cacheDir: String,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    private val repo: LoginRepository = LoginRepositoryImpl(ioDispatcher)
+    private val repo: LoginRepository = LoginRepositoryImpl()
 ) : ViewModel() {
 
     private val _viewState = MutableLiveData<ViewState>()
@@ -34,11 +34,11 @@ class LoginViewModel(
         checkIfUserIsLoggedIn()
     }
 
-    private fun checkIfUserIsLoggedIn() = viewModelScope.launch(ioDispatcher) {
+    private fun checkIfUserIsLoggedIn() = viewModelScope.launch {
         repo.checkLogin(cacheDir).fold({
-            _events.postEvent(Events.GoToBuckets)
+            _events.setEvent(Events.GoToBuckets)
         }, {
-            _viewState.postUpdate {
+            _viewState.setUpdate {
                 it.copy(isLoading = false)
             }
         })
@@ -57,10 +57,16 @@ class LoginViewModel(
             setError("Must input an encryption key (passphrase)")
             return
         }
-        this.viewModelScope.launch(ioDispatcher) {
+        _viewState.setUpdate {
+            it.copy(isLoading = true)
+        }
+        viewModelScope.launch {
             repo.login(satelliteAddresses[satelliteAddressIndex], apiKey, encryptionAccess, cacheDir).fold({
-                _events.postEvent(Events.GoToBuckets)
+                _events.setEvent(Events.GoToBuckets)
             }, { errorCode ->
+                _viewState.setUpdate {
+                    it.copy(isLoading = false)
+                }
                 setError(errorCode.localizedMessage)
             })
         }

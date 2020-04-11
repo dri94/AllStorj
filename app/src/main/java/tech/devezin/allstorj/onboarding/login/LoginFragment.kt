@@ -6,33 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_login.*
+import tech.devezin.allstorj.MainActivity
 import tech.devezin.allstorj.R
-import tech.devezin.allstorj.buckets.BucketsFragment
-import tech.devezin.allstorj.utils.*
+import tech.devezin.allstorj.utils.observe
+import tech.devezin.allstorj.utils.observeEvent
+import tech.devezin.allstorj.utils.text
+import tech.devezin.allstorj.utils.viewModels
 
 class LoginFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = LoginFragment()
-    }
 
     private val viewModel: LoginViewModel by viewModels {
         LoginViewModel(resources.getStringArray(R.array.login_satellites_values), requireContext().cacheDir.path)
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel.viewState.observe(viewLifecycleOwner) {
             setLoadingVisibility(it.isLoading)
             loginErrorText.text = it.error
@@ -40,7 +35,8 @@ class LoginFragment : Fragment() {
         viewModel.events.observeEvent(viewLifecycleOwner) {
             return@observeEvent when (it) {
                 is LoginViewModel.Events.GoToBuckets -> {
-                    (activity as AppCompatActivity).supportFragmentManager.beginTransaction().replace(R.id.mainContainer, BucketsFragment.newInstance()).commit()
+                    startActivity(Intent(requireContext(), MainActivity::class.java))
+                    activity?.finishAffinity()
                     true
                 }
                 is LoginViewModel.Events.GoToRegistration -> {
@@ -71,19 +67,16 @@ class LoginFragment : Fragment() {
     }
 
     private fun setLoadingVisibility(isLoading: Boolean) {
-        loginProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        val inputVisibility = if (isLoading) View.GONE else View.VISIBLE
-        loginSatelliteLayout.visibility = inputVisibility
-        loginApiKeyLayout.visibility = inputVisibility
-        loginEncryptionAccessLayout.visibility = inputVisibility
-        loginErrorText.visibility = inputVisibility
-        loginConfirm.visibility = inputVisibility
-        loginRegister.visibility = inputVisibility
+        loginConfirm.setLoading(isLoading)
+        loginSatelliteLayout.isEnabled = !isLoading
+        loginApiKeyLayout.isEnabled = !isLoading
+        loginEncryptionAccessLayout.isEnabled = !isLoading
+        loginErrorText.isEnabled = !isLoading
+        loginRegister.isEnabled = !isLoading
     }
 
     private fun getSelectedSatelliteAddressIndex(): Int {
-        return resources.getStringArray(R.array.login_satellites_names)
-            .indexOf(loginSatellitePicker.text.toString().trim())
+        return resources.getStringArray(R.array.login_satellites_names).indexOf(loginSatellitePicker.text.toString().trim())
     }
 
 }

@@ -16,7 +16,6 @@ interface LoginRepository {
 }
 
 class LoginRepositoryImpl(
-    private val ioDispatcher: CoroutineDispatcher,
     private val loginSource: LoginSource = LoginSource(),
     private val localSource: LocalSource = LocalSourceImpl()
 ) : LoginRepository {
@@ -29,7 +28,7 @@ class LoginRepositoryImpl(
         return loginSource.login(satelliteAddress, apiKey, encryptionAccess).flatMap {
             try {
                 localSource.saveScope(it.serialize())
-                BaseSource.initSources(cacheDir, localSource, ioDispatcher)
+                BaseSource.initStorj(cacheDir, localSource)
                 Success<Unit, Exception>(Unit)
             } catch (ex: StorjException) {
                 Error<Unit, Exception>(ex)
@@ -39,7 +38,7 @@ class LoginRepositoryImpl(
 
     override suspend fun checkLogin(cacheDir: String): Result<Unit, Exception> {
         return try {
-            BaseSource.initSources(cacheDir, localSource, ioDispatcher)
+            BaseSource.initStorj(cacheDir, localSource)
             Success(Unit)
         } catch (ex: StorjException) {
             Error(ex)

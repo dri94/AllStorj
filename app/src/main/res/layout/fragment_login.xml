@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,12 +15,6 @@
         android:layout_marginTop="@dimen/spacing_medium"
         android:contentDescription="@string/login_logo_content_description"
         android:src="@drawable/logo" />
-
-    <ProgressBar
-        android:id="@+id/loginProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginSatelliteLayout"
@@ -77,13 +72,12 @@
         tools:text="Unknown"
         tools:visibility="visible" />
 
-    <com.google.android.material.button.MaterialButton
+    <tech.devezin.allstorj.views.ProgressButton
         android:id="@+id/loginConfirm"
-        style="@style/FilledButton.Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/login" />
+        app:text="@string/login" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginRegister"

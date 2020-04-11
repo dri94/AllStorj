@@ -13,11 +13,20 @@
         <item name="android:textColor">@color/bodyText</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <!-- Base Styles -->
 
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="ProgressBar" parent="@style/Theme.MaterialComponents">
+        <item name="colorAccent">@android:color/white</item>
     </style>
 
     <style name="BodyText" parent="TextAppearance.MaterialComponents.Body1">

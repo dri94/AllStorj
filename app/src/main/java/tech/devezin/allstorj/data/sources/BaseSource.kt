@@ -13,8 +13,11 @@ open class BaseSource {
         internal lateinit var scope: Scope
         internal lateinit var project: Project
         private lateinit var ioDispatcher: CoroutineDispatcher
-        fun initSources(cacheDir: String, localSource: LocalSource, dispatcher: CoroutineDispatcher) {
+
+        fun init(dispatcher: CoroutineDispatcher) {
             ioDispatcher = dispatcher
+        }
+        fun initStorj(cacheDir: String, localSource: LocalSource) {
             Scope.parse(localSource.getScopeString()).also {
                 scope = it
                 project = Uplink(UplinkOption.tempDir(cacheDir)).openProject(it)

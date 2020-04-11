@@ -6,7 +6,6 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import io.storj.Bucket
 import io.storj.ObjectInfo
-import io.storj.ObjectListOption
 import kotlinx.coroutines.launch
 import tech.devezin.allstorj.R
 import tech.devezin.allstorj.utils.SingleLiveEvent
@@ -110,7 +109,11 @@ class FilesViewModel(
 }
 
 fun ObjectInfo.getName(): String {
-    return path.substring(path.lastIndexOf('\\') + 1)
+    var name = path.substring(path.lastIndexOf('\\') + 1)
+    if (isPrefix) {
+        name = name.removeSuffix("/")
+    }
+    return name
 }
 
 fun ObjectInfo.getModifiedFormattedDate(): String {
@@ -118,16 +121,20 @@ fun ObjectInfo.getModifiedFormattedDate(): String {
     return formatter.format(modified)
 }
 
-fun ObjectInfo.getMimeTypeDrawable(): Int {
+fun ObjectInfo.getTypeDrawable(): Int {
     return when {
+        isPrefix -> R.drawable.ic_folder
         contentType.startsWith("image") -> R.drawable.ic_file_image
+        contentType.startsWith("audio") -> R.drawable.ic_file_audio
+        contentType.startsWith("application") -> R.drawable.ic_file_application
+        contentType.startsWith("video") -> R.drawable.ic_file_video
         else -> R.drawable.ic_file
     }
 }
 
 fun ObjectInfo.toFilePresentable(): FilePresentable {
     val size = humanReadableByteCountSI(size)
-    return FilePresentable(name = getName(), path = path, isPrefix = isPrefix, drawableRes = getMimeTypeDrawable(), description = "$size, Modified: ${getModifiedFormattedDate()}")
+    return FilePresentable(name = getName(), path = path, isPrefix = isPrefix, drawableRes = getTypeDrawable(), description = "$size, Modified: ${getModifiedFormattedDate()}")
 }
 
 private fun humanReadableByteCountSI(bytes: Long): String? {

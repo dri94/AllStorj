@@ -19,7 +19,7 @@ import java.text.StringCharacterIterator
 class FilesViewModel(
     private val bucketName: String,
     private val repo: FilesRepository = FilesRepositoryImpl()
-) : ViewModel(), FilesAdapter.FileClickListener {
+) : ViewModel(), FilesPagingAdapter.FileClickListener {
 
     private var dataSourceFactory: FilesPagingDataSourceFactory? = null
     private var dataSourceLiveData: LiveData<PagedList<FilePresentable>>? = null

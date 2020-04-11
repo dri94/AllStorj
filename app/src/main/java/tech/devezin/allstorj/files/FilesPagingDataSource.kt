@@ -13,7 +13,7 @@ class FilesPagingDataSource(private val bucket: Bucket, private val path: String
         val items = try {
             val options = mutableListOf(ObjectListOption.pageSize(PAGE_SIZE))
             path?.let {
-                options.add(ObjectListOption.prefix(path))
+                options.add(ObjectListOption.prefix(path.removeSuffix("/")))
             }
             bucket.listObjects(*options.toTypedArray()).toList()
         } catch (ex: StorjException) {

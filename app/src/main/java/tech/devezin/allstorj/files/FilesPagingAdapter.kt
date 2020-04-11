@@ -11,7 +11,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import tech.devezin.allstorj.R
 
-class FilesPagingAdapter (private val listener: FilesAdapter.FileClickListener) : PagedListAdapter<FilePresentable, FilesPagingAdapter.Companion.FilesViewHolder>(DIFF_CALLBACK) {
+class FilesPagingAdapter (private val listener: FileClickListener) : PagedListAdapter<FilePresentable, FilesPagingAdapter.Companion.FilesViewHolder>(DIFF_CALLBACK) {
+
+    interface FileClickListener {
+        fun onClick(presentable: FilePresentable)
+        fun onMenuClick(presentable: FilePresentable)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilesViewHolder {
         return FilesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_file, parent, false))
@@ -20,10 +25,16 @@ class FilesPagingAdapter (private val listener: FilesAdapter.FileClickListener) 
     override fun onBindViewHolder(holder: FilesViewHolder, position: Int) {
         val presentable = getItem(position) as FilePresentable
         holder.title.text = presentable.name
-        holder.description.text = presentable.description
         holder.icon.setImageResource(presentable.drawableRes)
-        holder.menuButton.setOnClickListener {
-            listener.onMenuClick(presentable)
+        holder.description.apply {
+            text = presentable.description
+            visibility = if (presentable.isPrefix) View.GONE else View.VISIBLE
+        }
+        holder.menuButton.apply {
+            setOnClickListener {
+                listener.onMenuClick(presentable)
+            }
+            visibility = if (presentable.isPrefix) View.GONE else View.VISIBLE
         }
         holder.itemView.setOnClickListener {
             listener.onClick(presentable)

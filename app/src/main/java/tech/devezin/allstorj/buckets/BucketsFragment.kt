@@ -26,10 +26,6 @@ import tech.devezin.allstorj.utils.viewModels
 
 class BucketsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = BucketsFragment()
-    }
-
     private val viewModel: BucketsViewModel by viewModels()
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {

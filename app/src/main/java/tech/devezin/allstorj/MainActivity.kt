@@ -1,22 +1,38 @@
 package tech.devezin.allstorj
 
 import android.os.Bundle
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
 import kotlinx.android.synthetic.main.activity_main.*
-import tech.devezin.allstorj.onboarding.login.LoginFragment
+import tech.devezin.allstorj.utils.setupWithNavController
 
 class MainActivity : AppCompatActivity() {
+
+    private var currentNavController: LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, LoginFragment.newInstance()).commit()
-
+            setupBottomNavigation()
         }
+    }
+
+    private fun setupBottomNavigation() {
+        val navGraphIds = listOf(R.navigation.buckets, R.navigation.settings)
+        val navController = mainBottomNavigation.setupWithNavController(
+            navGraphIds = navGraphIds,
+            fragmentManager = supportFragmentManager,
+            containerId = R.id.mainNavHostFragment,
+            intent = intent
+        )
+        currentNavController = navController
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return currentNavController?.value?.navigateUp() ?: false
     }
 
     override fun onResume() {
@@ -28,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         mainBottomNavigation.post {
             val height = mainBottomNavigation.height
             val params: CoordinatorLayout.LayoutParams =
-                mainContainer.layoutParams as CoordinatorLayout.LayoutParams
+                mainNavHostFragment.layoutParams as CoordinatorLayout.LayoutParams
             params.setMargins(0, 0, 0, height)
-            mainContainer.layoutParams = params
+            mainNavHostFragment.layoutParams = params
         }
     }
 }

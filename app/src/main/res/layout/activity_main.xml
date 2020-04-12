@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/mainContainer"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainNavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/buckets"
+    app:startDestination="@id/bucketsFragment">
+
+
+    <fragment
+        android:id="@+id/bucketsFragment"
+        android:name="tech.devezin.allstorj.buckets.BucketsFragment"
+        android:label="fragment_buckets"
+        tools:layout="@layout/fragment_buckets" >
+        <action
+            android:id="@+id/bucketToFiles"
+            app:destination="@id/filesFragment"
+            app:enterAnim="@anim/popup_enter"
+            app:exitAnim="@anim/popup_exit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/filesFragment"
+        android:name="tech.devezin.allstorj.files.FilesFragment"
+        android:label="fragment_files"
+        tools:layout="@layout/fragment_files" >
+        <argument
+            android:name="bucketName"
+            app:argType="string" />
+    </fragment>
+
+
+</navigation>

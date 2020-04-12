@@ -33,6 +33,7 @@ class FilesViewModel(
             it.copy(isLoading = false, items = list)
         }
     }
+    private val fileBackStack = mutableListOf<String?>(null)
 
 
     sealed class Events {
@@ -40,12 +41,13 @@ class FilesViewModel(
         class ShowFileDetailBottomSheet(val info: ObjectInfo) : Events()
         class ShowFileMenuBottomSheet(val info: ObjectInfo) : Events()
         object OpenSystemFilePicker : Events()
+        object GoToBuckets : Events()
     }
 
-    data class ViewState(val isLoading: Boolean, val items: PagedList<FilePresentable>? = null)
+    data class ViewState(val isLoading: Boolean, val title: String, val items: PagedList<FilePresentable>? = null)
 
     init {
-        _viewState.value = (ViewState(true))
+        _viewState.value = (ViewState(true, bucketName))
         getFiles()
     }
 
@@ -78,14 +80,34 @@ class FilesViewModel(
 
     override fun onClick(presentable: FilePresentable) {
         if (presentable.isPrefix) {
-            dataSourceFactory?.cursor = presentable.path
-            invalidateDataSource()
+            loadFilesWithPath(presentable.path, true)
         } else {
             listObjects.find {
                 it.path == presentable.name
             }?.let {
                 _events.setEvent(Events.ShowFileDetailBottomSheet(it))
             }
+        }
+    }
+
+    private fun loadFilesWithPath(path: String?, addToBackstack: Boolean) {
+        dataSourceFactory?.cursor = path
+        if (addToBackstack) {
+            fileBackStack.add(path)
+        }
+        invalidateDataSource()
+        _viewState.setUpdate {
+            it.copy(title = path?.removePrefix("/")?.removeSuffix("/") ?: bucketName)
+        }
+    }
+
+    @OptIn(ExperimentalStdlibApi::class)
+    fun onNavigateBack() {
+        fileBackStack.removeLastOrNull()
+        if (fileBackStack.isEmpty()) {
+            _events.setEvent(Events.GoToBuckets)
+        } else {
+            loadFilesWithPath(fileBackStack.lastOrNull(), false)
         }
     }
 
